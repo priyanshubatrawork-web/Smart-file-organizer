@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart File Organizer</title>
+    <meta name="description" content="Organize your files instantly. Secure, client-side file organization and categorization.">
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Navigation / Header -->
+        <header class="app-header">
+            <div class="logo">
+                <i data-lucide="layers" class="logo-icon"></i>
+                <span>Smart Organizer</span>
+            </div>
+            <div class="header-actions">
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle Theme">
+                    <i data-lucide="moon" id="themeIcon"></i>
+                </button>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <!-- View 1: Upload Zone -->
+            <section id="uploadView" class="view active">
+                <div class="hero-text">
+                    <h1>Tame your messy files.</h1>
+                    <p>Drag and drop your messy files or folders. We'll categorize them, find duplicates, and give you a clean, organized ZIP—all instantly in your browser.</p>
+                </div>
+
+                <div class="upload-zone" id="uploadZone">
+                    <input type="file" id="fileInput" multiple webkitdirectory directory class="visually-hidden">
+                    <div class="upload-content">
+                        <div class="upload-icon-wrapper">
+                            <i data-lucide="folder-up" class="upload-icon"></i>
+                        </div>
+                        <h2>Drop your files here</h2>
+                        <p>or click to browse</p>
+                        <span class="upload-badge">Supports files and folders</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- View 2: Processing (Loading State) -->
+            <section id="processingView" class="view hidden full-screen-view">
+                <div class="processing-container">
+                    <div class="animated-sorting">
+                        <i data-lucide="image" class="animated-file file-1"></i>
+                        <i data-lucide="file-text" class="animated-file file-2"></i>
+                        <i data-lucide="video" class="animated-file file-3"></i>
+                        <i data-lucide="folder-open" class="animated-folder"></i>
+                    </div>
+                    <h2>Organizing your files...</h2>
+                    <p id="processingStatus">Detecting duplicates and categorizing content</p>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" id="processingProgressBar"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- View 3: Dashboard Summary -->
+            <section id="dashboardView" class="view hidden">
+                <div class="dashboard-header">
+                    <div>
+                        <h2>Ready to download</h2>
+                        <p class="summary-text" id="summaryText">Organized 0 files (0 MB)</p>
+                    </div>
+                    <button class="btn-primary" id="downloadBtn">
+                        <i data-lucide="download"></i>
+                        Download Organized ZIP
+                    </button>
+                    <button class="btn-secondary" id="startOverBtn">
+                        <i data-lucide="rotate-ccw"></i>
+                    </button>
+                </div>
+
+                <div class="dashboard-grid">
+                    <!-- Duplicate Warnings (if any) -->
+                    <div class="card duplicates-card hidden" id="duplicatesCard">
+                        <div class="card-header warning">
+                            <i data-lucide="alert-triangle"></i>
+                            <h3>Duplicates Found</h3>
+                        </div>
+                        <p id="duplicatesText">We found 0 duplicate files. They have been moved to a separate "Duplicates" folder.</p>
+                    </div>
+
+                    <!-- Categories Breakdown -->
+                    <div class="categories-grid" id="categoriesGrid">
+                        <!-- Category cards will be injected here via JS -->
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- App Logic -->
+    <script src="app.js"></script>
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+    </script>
+</body>
+</html>
